@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LegalAI - Demystify Legal Documents</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-balance-scale"></i>
+                <span>LegalAI</span>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="#home" class="nav-link" data-translate="nav-home">Home</a>
+                <a href="#features" class="nav-link" data-translate="nav-features">Features</a>
+                <a href="#how-it-works" class="nav-link" data-translate="nav-how-it-works">How It Works</a>
+                <a href="#contact" class="nav-link" data-translate="nav-contact">Contact</a>
+                <div class="language-selector">
+                    <button class="language-toggle" id="language-toggle" aria-label="Select language">
+                        <i class="fas fa-globe"></i>
+                        <span class="current-lang" id="current-lang">EN</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="language-dropdown" id="language-dropdown">
+                        <button class="lang-option" data-lang="en" data-code="EN">
+                            <span class="lang-flag">IN</span>
+                            <span class="lang-name">English</span>
+                        </button>
+                        <button class="lang-option" data-lang="hi" data-code="हि">
+                            <span class="lang-flag">🇮🇳</span>
+                            <span class="lang-name">हिन्दी</span>
+                        </button>
+                        <button class="lang-option" data-lang="zh" data-code="中">
+                            <span class="lang-flag">🇨🇳</span>
+                            <span class="lang-name">中文</span>
+                        </button>
+                    </div>
+                </div>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon" id="theme-icon"></i>
+                </button>
+            </div>
+            <div class="nav-toggle" id="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title" data-translate="hero-title">Demystify Legal Documents with AI</h1>
+                <p class="hero-subtitle" data-translate="hero-subtitle">Transform complex legal jargon into clear, accessible guidance. Make informed decisions with confidence.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="scrollToUpload()">
+                        <i class="fas fa-upload"></i>
+                        <span data-translate="hero-analyze-btn">Analyze Document</span>
+                    </button>
+                    <button class="btn btn-secondary" onclick="scrollToFeatures()">
+                        <i class="fas fa-info-circle"></i>
+                        <span data-translate="hero-learn-btn">Learn More</span>
+                    </button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="document-preview">
+                    <div class="document-page">
+                        <div class="document-header">
+                            <h3>Rental Agreement</h3>
+                            <div class="complexity-indicator high">High Complexity</div>
+                        </div>
+                        <div class="document-content">
+                            <p class="complex-text">"The lessee hereby covenants and agrees to pay unto the lessor the sum of..."</p>
+                            <div class="simplified-text">
+                                <i class="fas fa-arrow-down"></i>
+                                <p>"You agree to pay the landlord..."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Document Upload Section -->
+    <section id="upload" class="upload-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-translate="upload-title">Upload Your Legal Document</h2>
+                <p data-translate="upload-subtitle">Get instant analysis and simplified explanations</p>
+            </div>
+            
+            <div class="upload-container">
+                <div class="upload-area" id="upload-area">
+                    <div class="upload-content">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h3 data-translate="upload-drag-text">Drag & Drop Your Document</h3>
+                        <p><span data-translate="upload-browse-text">or browse files</span></p>
+                        <div class="supported-formats">
+                            <span data-translate="upload-formats">Supported: PDF, DOC, DOCX, TXT</span>
+                        </div>
+                    </div>
+                    <input type="file" id="file-input" accept=".pdf,.doc,.docx,.txt" multiple>
+                </div>
+                
+                <div class="upload-progress" id="upload-progress" style="display: none;">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <p class="progress-text" id="progress-text">Uploading...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analysis Results Section -->
+    <section id="analysis" class="analysis-section" style="display: none;">
+        <div class="container">
+            <div class="analysis-header">
+                <h2 data-translate="analysis-title">Document Analysis Results</h2>
+                <div class="analysis-actions">
+                    <button class="btn btn-outline" onclick="downloadReport()">
+                        <i class="fas fa-download"></i>
+                        <span data-translate="analysis-download">Download Report</span>
+                    </button>
+                    <button class="btn btn-outline" onclick="shareResults()">
+                        <i class="fas fa-share"></i>
+                        <span data-translate="analysis-share">Share Results</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="analysis-grid">
+                <!-- Document Summary -->
+                <div class="analysis-card">
+                    <div class="card-header">
+                        <i class="fas fa-file-alt"></i>
+                        <h3 data-translate="analysis-summary">Document Summary</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="summary-item">
+                            <span class="label">Document Type:</span>
+                            <span class="value" id="doc-type">Rental Agreement</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label">Complexity Level:</span>
+                            <span class="value complexity-high" id="complexity">High</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label">Key Points:</span>
+                            <span class="value" id="key-points">5 identified</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label">Risk Factors:</span>
+                            <span class="value risk-medium" id="risk-factors">2 flagged</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simplified Summary -->
+                <div class="analysis-card">
+                    <div class="card-header">
+                        <i class="fas fa-language"></i>
+                        <h3 data-translate="analysis-simplified">Simplified Summary</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="simplified-summary" id="simplified-summary">
+                            <p>This is a rental agreement between you (tenant) and the property owner (landlord). The agreement outlines your rights and responsibilities as a tenant, including payment terms, property maintenance, and lease duration.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Clauses -->
+                <div class="analysis-card">
+                    <div class="card-header">
+                        <i class="fas fa-list-ul"></i>
+                        <h3 data-translate="analysis-clauses">Key Clauses Explained</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="clauses-list" id="clauses-list">
+                            <div class="clause-item">
+                                <div class="clause-header">
+                                    <h4>Payment Terms</h4>
+                                    <span class="clause-type important">Important</span>
+                                </div>
+                                <p class="clause-explanation">You must pay rent on the 1st of each month. Late fees apply after 5 days.</p>
+                            </div>
+                            <div class="clause-item">
+                                <div class="clause-header">
+                                    <h4>Security Deposit</h4>
+                                    <span class="clause-type warning">Warning</span>
+                                </div>
+                                <p class="clause-explanation">A security deposit of $1,500 is required and may be used for damages.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Risk Assessment -->
+                <div class="analysis-card">
+                    <div class="card-header">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3 data-translate="analysis-risks">Risk Assessment</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="risk-items" id="risk-items">
+                            <div class="risk-item high-risk">
+                                <div class="risk-icon">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                </div>
+                                <div class="risk-content">
+                                    <h4>High Late Fee</h4>
+                                    <p>$100 late fee after 5 days may be excessive</p>
+                                </div>
+                            </div>
+                            <div class="risk-item medium-risk">
+                                <div class="risk-icon">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <div class="risk-content">
+                                    <h4>Maintenance Responsibility</h4>
+                                    <p>Tenant responsible for minor repairs</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Q&A Section -->
+    <section id="qa" class="qa-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-translate="qa-title">Ask Questions About Your Document</h2>
+                <p data-translate="qa-subtitle">Get instant answers to your legal questions</p>
+            </div>
+            
+            <div class="qa-container">
+                <div class="chat-container">
+                    <div class="chat-messages" id="chat-messages">
+                        <div class="message bot-message">
+                            <div class="message-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="message-content">
+                                <p>Hello! I'm here to help you understand your legal document. Ask me anything about the terms, clauses, or implications.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input-container">
+                        <div class="chat-input">
+                            <input type="text" id="question-input" placeholder="Ask a question about your document..." data-translate-placeholder="qa-placeholder">
+                            <button class="send-btn" onclick="sendQuestion()">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <div class="quick-questions">
+                            <button class="quick-question" onclick="askQuickQuestion('What are my main obligations?')" data-translate="qa-obligations">Main Obligations</button>
+                            <button class="quick-question" onclick="askQuickQuestion('What happens if I break the contract?')" data-translate="qa-breach">Breach Consequences</button>
+                            <button class="quick-question" onclick="askQuickQuestion('Can I terminate early?')" data-translate="qa-termination">Early Termination</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-translate="features-title">Powerful Features</h2>
+                <p data-translate="features-subtitle">Everything you need to understand legal documents</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <h3 data-translate="feature-simplification">Document Simplification</h3>
+                    <p data-translate="feature-simplification-desc">AI-powered translation of complex legal jargon into plain, understandable language.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3 data-translate="feature-qa">Interactive Q&A</h3>
+                    <p data-translate="feature-qa-desc">Ask specific questions about your document and get instant, relevant answers.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3 data-translate="feature-risks">Risk Identification</h3>
+                    <p data-translate="feature-risks-desc">Automatically flags potentially unfavorable clauses and hidden risks.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <h3 data-translate="feature-keypoints">Key Point Extraction</h3>
+                    <p data-translate="feature-keypoints-desc">Highlights essential information like obligations, termination conditions, and liability clauses.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 data-translate="feature-security">Private & Secure</h3>
+                    <p data-translate="feature-security-desc">Your documents are processed securely with end-to-end encryption protection.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 data-translate="feature-mobile">Mobile Optimized</h3>
+                    <p data-translate="feature-mobile-desc">Access your document analysis anywhere with our responsive mobile interface.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-translate="how-title">How It Works</h2>
+                <p data-translate="how-subtitle">Simple steps to understand your legal documents</p>
+            </div>
+            
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3 data-translate="step-upload">Upload Document</h3>
+                        <p data-translate="step-upload-desc">Upload your legal document in PDF, DOC, or text format</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3 data-translate="step-analysis">AI Analysis</h3>
+                        <p data-translate="step-analysis-desc">Our AI analyzes the document structure and identifies key elements</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3 data-translate="step-results">Get Results</h3>
+                        <p data-translate="step-results-desc">Receive simplified summaries, risk assessments, and explanations</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3 data-translate="step-questions">Ask Questions</h3>
+                        <p data-translate="step-questions-desc">Interact with our AI to get answers to specific questions</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-translate="contact-title">Get In Touch</h2>
+                <p data-translate="contact-subtitle">Have questions? We're here to help</p>
+            </div>
+            
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4 data-translate="contact-email">Email</h4>
+                            <p>lettersfunmar@gmail.com</p>
+                        </div>
+                    </div>
+                                        
+                </div>
+                
+                <div class="contact-form">
+                    <form id="contact-form" action="https://formspree.io/f/xzzaovoq" method="POST">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="Your Name" data-translate-placeholder="contact-name-placeholder" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="Your Email" data-translate-placeholder="contact-email-placeholder" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" placeholder="Your Message" data-translate-placeholder="contact-message-placeholder" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            <span data-translate="contact-send">Send Message</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>  
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-balance-scale"></i>
+                        <span>LegalAI</span>
+                    </div>
+                    <p data-translate="footer-description">Empowering individuals to understand legal documents through AI-powered simplification.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 data-translate="footer-quick-links">Quick Links</h4>
+                    <ul>
+                        <li><a href="#home" data-translate="nav-home">Home</a></li>
+                        <li><a href="#features" data-translate="nav-features">Features</a></li>
+                        <li><a href="#how-it-works" data-translate="nav-how-it-works">How It Works</a></li>
+                        <li><a href="#contact" data-translate="nav-contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 data-translate="footer-legal">Legal</h4>
+                    <ul>
+                        <li><a href="#" data-translate="footer-privacy">Privacy Policy</a></li>
+                        <li><a href="#" data-translate="footer-terms">Terms of Service</a></li>
+                        <li><a href="#" data-translate="footer-cookies">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 LegalAI. <span data-translate="footer-copyright">All rights reserved.</span><br><br>-------------------------------------------------</br>
+                    <br><span data-translate="footer-designed">Designed by Alpha Coderss</span><br>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget" id="chatbot-widget">
+        <div class="chatbot-toggle" id="chatbot-toggle">
+            <div class="robot-logo">
+                <div class="robot-head">
+                    <div class="robot-eyes">
+                        <div class="eye left-eye"></div>
+                        <div class="eye right-eye"></div>
+                    </div>
+                    <div class="robot-mouth"></div>
+                </div>
+                <div class="robot-body">
+                    <div class="robot-panel"></div>
+                </div>
+            </div>
+            <div class="chatbot-status">
+                <span class="status-dot"></span>
+                <span class="status-text">AI Assistant</span>
+            </div>
+        </div>
+        
+        <div class="chatbot-window" id="chatbot-window">
+            <div class="chatbot-header">
+                <div class="chatbot-title">
+                    <div class="mini-robot-logo">
+                        <div class="mini-robot-head">
+                            <div class="mini-eyes">
+                                <div class="mini-eye"></div>
+                                <div class="mini-eye"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <span data-translate="chatbot-title">AI Legal Assistant</span>
+                </div>
+                <button class="chatbot-close" id="chatbot-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="chatbot-messages" id="chatbot-messages">
+                <div class="message bot-message">
+                    <div class="message-avatar">
+                        <div class="avatar-robot">
+                            <div class="avatar-eyes">
+                                <div class="avatar-eye"></div>
+                                <div class="avatar-eye"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="message-content">
+                        <p data-translate="chatbot-welcome">Hello! I'm your AI legal assistant powered by Gemini. I can help you understand legal documents, answer questions, and provide guidance. How can I assist you today?</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chatbot-input-container">
+                <div class="chatbot-input">
+                    <input type="text" id="chatbot-input-field" placeholder="Ask me anything about legal documents..." data-translate-placeholder="chatbot-placeholder">
+                    <button class="chatbot-send" id="chatbot-send">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div class="chatbot-suggestions">
+                    <button class="suggestion-btn" onclick="askChatbot('What are the key terms in my document?')" data-translate="chatbot-key-terms">Key Terms</button>
+                    <button class="suggestion-btn" onclick="askChatbot('Explain the risks in this contract')" data-translate="chatbot-risk-analysis">Risk Analysis</button>
+                    <button class="suggestion-btn" onclick="askChatbot('What are my obligations?')" data-translate="chatbot-obligations">My Obligations</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
